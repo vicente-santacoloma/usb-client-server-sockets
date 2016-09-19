@@ -1,0 +1,7 @@
+Tornillo & 1000 & 0.02
+Tuerca & 900 & 2.00
+Taladro & 47 & 30.00
+Clavo & 50000 & 16.00
+Alicate & 1 & 700.00
+Destornillador & 87 & 47.00
+Bombillo & 2500 & 0.97

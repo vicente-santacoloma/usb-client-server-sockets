@@ -1,0 +1,3 @@
+Fregadero & 1000 & 0.02
+Destornillador & 87 & 7.00
+Clavo & 50000 & 16.00

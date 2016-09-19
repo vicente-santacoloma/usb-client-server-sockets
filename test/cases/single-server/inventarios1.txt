@@ -1,0 +1,4 @@
+Tornillo & 1000 & 0.02
+Martillo & 8 & 5.00
+Tubo & 10 & 8.00
+Bombillo & 8000 & 1.00

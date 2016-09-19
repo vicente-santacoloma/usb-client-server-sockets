@@ -1,0 +1,246 @@
+
+<!-- saved from url=(0065)http://ldc.usb.ve/~figueira/cursos/lab-redes/Proyectos/Proyecto1/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html">
+<title>1er Proyecto: Cliente-Servidor con sockets</title>
+</head>
+<body bgcolor="#f6fffa" link="#0000ff" vlink="#800080">
+
+<h1 align="CENTER">1er Proyecto: Cliente-Servidor con sockets</h1>
+<h2>Descripción general</h2>
+<p>La ferretería LA CADENA desea implementar un sistema de ayuda para
+la emisión de pedidos a sus proveedores. Este sistema debe asistir en
+la obtención del mejor precio posible para los artículos
+buscados. </p>
+
+<b></b><p><b>Ejemplo</b> Supóngase que se quiere adquirir
+5000 clavos de acero. El sistema debe consultar los sistemas de
+los proveedores, para saber cómo elaborar sus pedidos de manera de
+obtener el mejor precio para la operación. Esto implicará determinar
+cuál de los proveedores ofrece el mejor precio, y si éste es capaz de
+satisfacer el pedido. En caso de no poder hacerlo en su totalidad (por
+ejemplo, solo tiene 3000 clavos en su inventario), entonces debe
+obtener el restante del siguiente proveedor con el mejor precio, y así
+sucesivamente. </p>
+
+<p>El sistema tiene dos posibles salidas, una básica y otra
+avanzada. El nivel básico consiste en la consulta de la información de
+los proveedores. En el nivel avanzado, el sistema, adicionalmente,
+envía las peticiones de productos a los proveedores de acuerdo al
+resultado de la primera consulta. <br>  <br>  </p>
+
+<h3>Nivel básico</h3>
+<p>El sistema dará como salida un reporte en el que se indicará en
+cada línea:  un producto, a quién fue hecho el pedido del producto, el
+precio unitario del producto, la cantidad solicitada y el precio total
+del pedido a ese proveedor. En el caso de que un producto sea
+suministrado por más de un proveedor, la información debe aparecer en
+líneas consecutivas del reporte. Para facilitar su análisis el reporte
+debe estar ordenado por productos y en el mismo orden en el que
+aparecen en el archivo de entrada que se le suministra al
+cliente.
+
+</p><h4><a name="pedido">Ejemplo de archivo de pedidos</a></h4>
+<table cols="2" width="50%">
+  <tbody><tr>
+    <td>clavos de acero </td>  <td>1000 </td> 
+  </tr>
+  <tr>
+    <td> alicate de presion</td>  <td>7 </td> 
+  </tr>
+  <tr>
+    <td> Bombillos 100Vatios</td>  <td> 30 </td> 
+  </tr>
+  <tr>
+    <td> Destornillador </td>  <td> 5 </td> 
+  </tr>
+  
+ </tbody></table>
+
+<h4>Ejemplo del reporte</h4>
+
+<p></p><table cols="5" width="80%" cellpadding="2" cellspacing="2">
+  <tbody><tr>
+    <td>CONSULTA</td>
+  </tr>
+  <tr>
+    <td>PRODUCTO</td> <td>PROVEEDOR</td> <td>CANTIDAD</td> <td>PRECIO
+	UN.</td> <td>COSTO TOTAL</td>   
+  </tr>
+<tr><td>clavos de acero </td> <td>MetalMax </td> <td>0.02 </td> <td>1000 </td> <td>20.00</td>  
+</tr><tr><td>alicate de presion</td> <td> Pretador C.A.</td> <td> 30.00</td> <td> 7 </td> <td>210.00</td> </tr> 
+<tr><td>Bombillos 100Vatios </td> <td>La Luz </td> <td>5.00</td> <td> 20 </td> <td>100.00</td> </tr> 
+<tr> <td>Bombillos 100Vatios</td> <td> La Noche</td> <td> 7.00 </td> <td>10</td> <td> 70.00</td> </tr> 
+<tr> <td>Destornillador</td> <td> Lo hago yo</td> <td> 12.00</td> <td> 5</td> <td> 60.00</td> </tr> 
+ <tr>  <td>TOTAL</td> <td> </td> <td></td> <td> </td> <td>  460.00</td>  </tr> 
+</tbody></table>
+
+<p>El reporte debe aparecer por pantalla, (por la salida estándar). <br>
+&nbsp; </p>
+<h3>Nivel avanzado</h3>
+<p><br>
+El sistema envía las peticiones a los proveedores y, si son aceptadas
+por los proveedores, responde con un reporte similar al mostrado en el
+nivel básico, pero que corresponde a los pedidos hechos. </p> 
+
+<p></p><table cols="5" width="80%" cellpadding="2" cellspacing="2">
+  <tbody><tr>
+    <td>PEDIDOS SOLICITADOS</td>
+  </tr>
+  <tr>
+    <td>PRODUCTO</td> <td>PROVEEDOR</td> <td>CANTIDAD</td> <td>PRECIO
+	UN.</td> <td>COSTO TOTAL</td>   
+  </tr>
+<tr><td>clavos de acero </td> <td>MetalMax </td> <td>0.02 </td> <td>1000 </td> <td>20.00</td>  
+</tr><tr><td>alicate de presion</td> <td> Pretador C.A.</td> <td> 30.00</td> <td> 7 </td> <td>210.00</td> </tr> 
+<tr><td>Bombillos 100Vatios </td> <td>La Luz </td> <td>5.00</td> <td> 20 </td> <td>100.00</td> </tr> 
+<tr> <td>Bombillos 100Vatios</td> <td> La Noche</td> <td> 7.00 </td> <td>10</td> <td> 70.00</td> </tr> 
+<tr> <td>Destornillador</td> <td> Lo hago yo</td> <td> 12.00</td> <td> 5</td> <td> 60.00</td> </tr> 
+ <tr>  <td>TOTAL</td> <td> </td> <td></td> <td> </td> <td>  460.00</td>  </tr> 
+</tbody></table>
+
+
+<h2>Implementación Cliente-Servidor</h2>
+<h3>Cliente</h3>
+<p>El usuario proveerá un archivo de texto ("pedidos.txt") con los
+pedidos que desea consultar. Este archivo contiene un pedido por
+línea; cada pedido se especifica por el identificador del ítem (un
+campo de 30 caracteres de longitud) y la cantidad deseada (entero),
+separados por un espacio en blanco (ver ejemplo <a href="http://ldc.usb.ve/~figueira/cursos/lab-redes/Proyectos/Proyecto1/#pedido">arriba</a>).
+
+</p><p>El cliente se invoca con el comando </p>
+<pre>ordenes -[a|b] -f [archivo de pedidos] -d [proveedores] </pre>
+<p>donde "<tt>a</tt>" indica nivel avanzado y "<tt>b</tt>" indica el
+nivel básico; el <tt>archivo de pedido</tt>s es el descrito en el
+párrafo anterior, <tt>proveedores</tt> es el nombre de un archivo que
+contiene en cada línea el nombre de un proveedor así como las
+direcciones (DNS) de la máquina donde corre su servicio y el número de
+puerto en el que corre el servicio en esa máquina.<br>
+El nombre del
+proveedor posee 20 caracteres de longitud, y se encuentra separado del
+nombre de la máquina por un espacio en blanco. Por ejemplo
+</p> 
+<pre>#Archivo de maquinas
+El Picoteo korba.ldc.usb.ve 4356
+La Pala lala.ldc.usb.ve 7654 </pre>
+<p>
+<tt>puerto servidor</tt> es el puerto UDP/TCP del servidor. Para
+evitar conflictos, se usarán los últimos cinco dígitos del carnet de
+uno de los integrantes del equipo como número de puerto. </p> 
+<p>En el nivel avanzado del proyecto, una vez que el cliente ha
+consultado los sistemas de los proveedores, debe enviar una orden de
+pedido para cada producto al proveedor que ha seleccionado por su
+precio. La orden de pedido debe contener la siguiente información:
+<br> 
+Nombre del proveedor, nombre del producto solicitado, cantidad
+solicitada del producto. <br> 
+El cliente debe obtener del servidor un mensaje de respuesta
+indicándole si se puede servir el pedido o no. En el caso que el
+pedido no pueda ser servido por el proveedor seleccionado se pasa a
+hacer el pedido al proveedor con el siguiente mejor precio y si
+ninguno puede servir el pedido, pues no se pide el producto. </p>
+
+<h3>Servidor</h3>
+<p>En cada máquina, se ejecutará un demonio con el comando </p>
+<pre>proveedor -f [archivo inventario]-p [puerto]</pre>
+<p>Donde <tt>proveedor</tt> es el nombre del programa, y <tt>archivo
+inventario</tt> es el nombre de un archivo de texto que contendrá la
+información pertinente, con el formato: </p> 
+<pre>[nombre producto]&nbsp;&nbsp; [cantidad disponible]&nbsp;&nbsp; [precio unitario] 
+</pre>
+de tipo cadena de caracteres (máximo 30 caracteres), entero y real,
+respectivamente. Cada uno de estos campos vendrá separado del siguiente por un "&amp;". Ejemplo:
+<tt></tt><p><tt>clavos de acero &amp; 1000 &amp; 0.02</tt> <br>
+<tt>alicate de presion  &amp; 7  &amp; 30.00</tt> <br>
+<tt>bombillos 100Vatios  &amp; 10  &amp; 8.00</tt> </p>
+<p><tt>puerto</tt> es el número del puerto donde el servidor escuchará
+las peticiones de los clientes. </p> 
+<p>El programa proveedor debe proveer de toda la funcionalidad
+necesaria para atender las peticiones que genere la ferretería LA
+CADENA, o cualquiera otra que emplee el mismo programa que ésta. </p> 
+<p>Para efectos de corrección del proyecto el programa servidor debe
+mostrar por la salida estándar toda la información que reciba del
+cliente, de forma de poder verificar fácilmente el flujo de
+información que intercambia con el cliente. <br> 
+&nbsp; </p>
+
+
+<h2>Evaluación</h2>
+<ul>
+  <li>Este proyecto corresponde a 15% de la nota del curso. El proyecto
+que se entregue debe funcionar correctamente. Si no corre no será
+evaluado. <p></p> 
+  </li><li> Habrá al menos un punto de control, sin nota pero obligatorio.
+</li><li>Existen varias modalidades de entrega. Un proyecto con únicamente
+el nivel básico será evaluado en base a 70% de la nota. Si se
+implementa además el nivel avanzado, entonces se evaluará sobre
+100%.
+
+
+</li><li>Las especificaciones de la entrega serán publicadas oportunamente. <p>
+
+</p></li><li>Para su evaluación el proyecto será probado con un conjunto de
+datos que serán establecidos en el momento de la corrección, no 
+necesariamente los que fueron suministrados como ejemplo. <p></p>
+</li><li>Otros detalles de la entrega, así como archivos de prueba, serán
+publicados oportunamente. <p></p>
+
+</li></ul>
+<h2>Observaciones</h2>
+
+<ul>
+  <li>Para el nivel básico y el nivel avanzado descritos antes se asume
+que no hay uso concurrente del sistema. Es decir, que sólo hay un
+cliente interactuando con los proveedores simultáneamente. Una de las
+consecuencias de esta restricción es que no habrá modificación de los
+archivos de los proveedores entre la consulta y la emisión de los
+pedidos, garantizándose que los pedidos serán aceptados por los
+proveedores. Las estructuras de datos se mantendrá actualizadas sólo
+en la memoria. <p></p> 
+<!-- <P>El proyecto podr&iacute;a extenderse para manejar accesos -->
+<!-- concurrentes. Esto ser&aacute; evaluado como puntos extras (hasta 10 puntos -->
+<!-- sobre la nota total del laboratorio). Existen varias posibilidades -->
+<!-- para el manejo de la concurrencia. Por ejemplo, podr&iacute;a tratarse -->
+<!-- como&nbsp; "transacciones", de manera de garantizar la consistencia -->
+<!-- entre la consulta y el pedido, o el uso de locks, etc. </P>  -->
+
+ </li><li>El programa debe correr en las máquinas del LDC.
+ </li>
+ <li>La implementación se hará con sockets. </li>
+ <li>Los formatos, nombres de los comandos, etc., deberán ser
+estrictamente los especificados aquí. </li>
+ <li>Por simplicidad de los
+proyectos se pide que no se implemente ningún tipo de interfaz
+gráfica, que se emplee la línea de comandos para invocar a los
+programas y la salida estándar para cualquier información que se desee
+reportar. </li>
+ <li>El no seguir las instrucciones puede acarrear penalizaciones.
+  </li>
+</ul>
+ 
+<h2>Ayuda</h2>
+
+Para efectos de desarrollo puede utilizarse una máquina para correr
+todos los componentes (cliente y varios servidores). Para ello, debe
+ejecutarse una instancia del servidor por cada proveedor, usando un
+archivo de inventario y un puerto diferente para cada uno; y un
+archivo "proveedores" como el siguiente:
+<p></p> 
+<pre>#Archivo de maquinas
+El Picoteo localhost 4356
+La Pala localhost 7654 </pre>
+<p>
+
+Una vez funcione en una máquina, debe probarlo en al menos dos máquina
+(una con un cliente y un proveedor, y un proveedor en otra máquina)
+para verificar que funcione bien. <b>La corrección se hará usando varias
+máquinas. </b>
+</p><p></p><hr><p></p>
+<address>
+Carlos Figueira<br>
+<!-- hhmts start -->
+Última modificación: Thu Sep 20 17:22:13 VET 2012
+<!-- hhmts end -->
+</address>
+
+</body></html>
